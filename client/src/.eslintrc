@@ -1,0 +1,237 @@
+{
+  // http://eslint.org/docs/rules/
+  "parser": "babel-eslint",
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 7,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "env": {
+    "browser": true,      // browser global variables.
+    "node": true,         // Node.js global variables and Node.js-specific rules.
+    "worker": false,      // web workers global variables.
+    "amd": false,         // defines require() and define() as global variables as per the amd spec.
+    "mocha": true,        // adds all of the Mocha testing global variables.
+    "jasmine": false,     // adds all of the Jasmine testing global variables for version 1.3 and 2.0.
+    "phantomjs": false,   // phantomjs global variables.
+    "jquery": true,       // jquery global variables.
+    "prototypejs": false, // prototypejs global variables.
+    "shelljs": false,     // shelljs global variables.
+    "meteor": false,      // meteor global variables.
+    "mongo": false,       // mongo global variables.
+    "applescript": false, // applescript global variables.
+    "es6": true,          // enable all ECMAScript 6 features except for modules.
+    "jest": true          // jest global variables.
+  },
+
+  "globals": {
+    "$": true,
+    "angular": true,
+    "echarts": true,
+    "OnePlayer": true,
+    "OnePlayerConfigLiveDemoMode": true,
+    "OnePlayerStateTypeEnum": true,
+    "RichContentSlideBuilder": true,
+    "ImageSlideBuilder": true,
+    "WebSlideBuilder": true,
+    "HttpModelService": true,
+    "UserAgentSnifferService": true,
+    "UserAlertService": true,
+    "TranslationsDataService": true,
+    "NumberFormatterService": true,
+    "customEventEmitter": true,
+    "Spinner": true,
+    "moment": true,
+    "MeetingGraphUtils": true,
+    "_": true,
+    "CSTemplateController": true,
+    "SlideDrawingBoard": true,
+    "FontUtils": true,
+    "ImagePlaceholderSizeModeHelper": true,
+    "CustomContentThumbnailCreator": true,
+    "WebFont": true,
+    "CSTourController": true,
+    "SlideDrawingBoardConstant": true,
+    "videojs": true,
+    "moment_tz_country_tz_map": true
+  },
+
+  "plugins": [
+    // e.g. "react" (must run `npm install eslint-plugin-react` first)
+    "react",
+    "flowtype",
+    "prettier"
+  ],
+
+  "rules": {
+    // 0 - turn the rule off
+    // 1 - turn the rule on as a warning (doesn't affect exit code)
+    // 2 - turn the rule on as an error (exit code will be 1)
+
+    // Prettier configuration
+    "prettier/prettier": ["error", {
+      "jsxBracketSameLine": false,  // Put the > of a multi-line JSX element at the end of the last line instead of being alone on the next line
+      "jsxSingleQuote": true,       // Use single quotes instead of double quotes in JSX
+      "printWidth": 120,            // Specify the line length that the printer will wrap on
+      "semi": true,                 // Print semicolons at the ends of statements.
+      "singleQuote": true,          // Use single quotes instead of double quotes.
+      "tabWidth": 2,                // Specify the number of spaces per indentation-level.
+      "trailingComma": "all",       // Print trailing commas wherever possible when multi-line.
+      "useTabs": false,             // Indent lines with tabs instead of spaces.
+      "endOfLine": "lf",            // Line Feed only (\n),
+      "arrowParens": "avoid"        // Include parentheses around a sole arrow function parameter.
+    }],
+
+    // React configuration
+
+    "react/jsx-uses-react": 2,
+    "react/prop-types": 0,                // Prevent missing props validation in a React component definition
+    "react/jsx-uses-vars": 2,             // Prevent variables used in JSX to be incorrectly marked as unused
+    "react/display-name": 0,              // Prevent missing displayName in a React component definition
+    "react/no-unescaped-entities": 0,     // Prevent invalid characters from appearing in markup
+    "react/jsx-no-target-blank": 0,       // Prevent usage of unsafe target='_blank'
+    "react/react-in-jsx-scope": 0,        // Prevent missing React when using JSX
+    "react/no-find-dom-node": 0,          // Prevent usage of findDOMNode
+    "react/no-children-prop": 0,          // Prevent passing of children as props
+    "react/jsx-key": 0,                   // Detect missing key prop
+    "react/no-direct-mutation-state": 2,  // Prevent direct mutation of this.state
+    "react/no-deprecated": 1,             // Prevent usage of deprecated methods
+
+    // Possible Errors
+    "no-extra-semi": 1,                       // disallow unnecessary semicolons
+    "no-inner-declarations": 2,               // disallow function or variable declarations in nested blocks
+    "jsx-quotes": ["error", "prefer-single"], // It enforces the consistent use of either double or single quotes in JSX attributes.
+
+    // Best Practices
+
+    "curly": 2,                       // specify curly brace conventions for all control statements
+    "no-eval": 2,                     // disallow use of eval()
+    "no-extend-native": 2,            // disallow adding to native types
+    "no-new-wrappers": 2,             // disallows creating new instances of String, Number, and Boolean
+    "no-with": 2,                     // disallow use of the with statement
+    "brace-style": ["error", "1tbs"], // enforce consistent brace style for blocks
+
+    // Strict Mode
+
+
+    // Variables
+    "no-undef": 2,                   // disallow use of undeclared variables unless mentioned in a /*global */ block
+    "no-unused-vars": 0,              // disallow unused variables
+
+    // Node.js
+
+
+    // Stylistic Issues
+    "array-bracket-spacing": [2, "never"], // enforce spacing inside array brackets (off by default)
+    // this option sets a specific tab width for your code (off by default)
+
+    //  Commented indent rule because of conflict with prettier
+    //    "indent": ["error", 2, {
+    //      "SwitchCase": 1,
+    //      "MemberExpression": "off",
+    //      "FunctionDeclaration": {"parameters": "off"},
+    //      "FunctionExpression": {"parameters": "off"},
+    //      "CallExpression": {"arguments": "off"},
+    //      "ImportDeclaration": "off",
+    //      "ignoredNodes": ["ConditionalExpression", "JSXAttribute", "JSXSpreadAttribute"],
+    //      "ignoreComments": true
+    //    }],
+
+    "no-array-constructor": 2,             // disallow use of the Array constructor
+    "no-mixed-spaces-and-tabs": 2,         // disallow mixed spaces and tabs for indentation
+    "no-new-object": 2,                    // disallow use of the Object constructo
+    "semi": 1,                             // require or disallow use of semicolons instead of ASI
+
+
+    // ECMAScript 6
+
+
+    // Legacy
+    "flowtype/boolean-style": [
+      2,
+      "boolean"
+    ],
+    "flowtype/define-flow-type": 1,
+    "flowtype/delimiter-dangle": [
+      2,
+      "never"
+    ],
+    "flowtype/generic-spacing": [
+      2,
+      "never"
+    ],
+    "flowtype/no-primitive-constructor-types": 2,
+    "flowtype/no-weak-types": 2,
+    "flowtype/object-type-delimiter": [
+      2,
+      "comma"
+    ],
+    "flowtype/require-parameter-type": 0,
+    "flowtype/require-return-type": [
+      0,
+      "always",
+      {
+        "annotateUndefined": "never"
+      }
+    ],
+    "flowtype/require-valid-file-annotation": 2,
+    "flowtype/semi": [
+      2,
+      "always"
+    ],
+    "flowtype/space-after-type-colon": [
+      2,
+      "always"
+    ],
+    "flowtype/space-before-generic-bracket": [
+      2,
+      "never"
+    ],
+    "flowtype/space-before-type-colon": [
+      2,
+      "never"
+    ],
+    "flowtype/type-id-match": [
+      2,
+      "^([A-Z][a-z0-9]+)+Type$"
+    ],
+    "flowtype/union-intersection-spacing": [
+      2,
+      "always"
+    ],
+    "flowtype/use-flow-type": 1,
+    "flowtype/valid-syntax": 1
+  },
+  "settings": {
+    "flowtype": {
+      "onlyFilesWithFlowAnnotation": false
+    },
+    "react": {
+      "pragma": "React",
+      "version": "16.13.1"
+    }
+  },
+  "overrides": [
+    {
+      "files": ["*.js"],
+      "rules": {
+        "no-undef": 0,
+        "no-eval": 1,
+        "no-delete-var": 1,
+        "no-new-object": 1,
+        "no-unused-vars": 0,
+        "no-new-wrappers": 1,
+        "no-extend-native": 1,
+        "no-array-constructor": 1,
+        "no-inner-declarations": 1,
+        "no-mixed-spaces-and-tabs": 1
+      }
+    }
+  ]
+}

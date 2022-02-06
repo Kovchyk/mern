@@ -1,0 +1,33 @@
+@import 'antd/dist/antd.css';
+
+*,*::before, *::after {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+
+.site-layout {
+  min-height: calc(100vh - 64px);
+  padding: 25px 50px;
+}
+
+.site-layout.login {
+  min-height: 100vh;
+}
+
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.home__calendar-wrapper {
+  width: 275px;
+}
+
+.home__chosen-date {
+  width: 270px;
+  margin-top: 16px;
+  text-align: center;
+}

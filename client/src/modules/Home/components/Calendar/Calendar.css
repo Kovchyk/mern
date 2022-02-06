@@ -1,0 +1,64 @@
+#calendar {
+  min-width: 275px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.select-date-block {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+table {
+  text-align: center;
+  width: 100%;
+}
+
+th, td {
+  width: 37px;
+  height: 37px;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;           /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
+
+td.shade {
+  color: #ccc;
+}
+
+.shade.selected {
+  color: #000;
+}
+
+td.today {
+  background: #235ba8;
+  color: #fff;
+}
+
+td.selected {
+  background: #b9c0e0;
+}
+
+td.day {
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.today.selected {
+  border: 3px solid #235ba8;
+  width: 29px;
+  height: 29px;
+}
+
+td.day:hover {
+  border: 1px solid #235ba8;
+}
