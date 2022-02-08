@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, createSelector } from '@reduxjs/toolkit';
-import { request } from '@config/fetchConfig';
+import { httpPost } from '@config/http';
 
 const initialState = {
   message: null,
@@ -7,11 +7,9 @@ const initialState = {
   isLoading: false,
 };
 
-export const register = createAsyncThunk('auth/register', async ({ email, password }, { rejectWithValue }) => {
+export const register = createAsyncThunk('register/register', async ({ email, password }, { rejectWithValue }) => {
   try {
-    const response = await request('/api/auth/register', 'POST', { email, password });
-
-    return response.data;
+    return await httpPost('/api/auth/register', { email, password });
   } catch (err) {
     let error = err;
 
@@ -48,6 +46,17 @@ export const registerSlice = createSlice({
       }
     });
   },
+});
+
+const selectAuthState = state => state.auth;
+
+export const selectorAuth = createSelector(selectAuthState, state => {
+  return {
+    token: state.token,
+    userId: state.userId,
+    error: state.error,
+    isLoading: state.isLoading,
+  };
 });
 
 const selectRegisterState = state => state.register;

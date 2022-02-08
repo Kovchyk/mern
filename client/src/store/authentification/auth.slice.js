@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, createSelector } from '@reduxjs/toolkit';
-import { request } from '@config/fetchConfig';
+import { httpPost } from '@config/http';
 import { STORAGE_NAME } from '@services/constants';
 
 const initialState = {
@@ -11,10 +11,10 @@ const initialState = {
 
 export const login = createAsyncThunk('auth/login', async ({ email, password }, { rejectWithValue }) => {
   try {
-    const response = await request('/api/auth/login', 'POST', { email, password });
-    localStorage.setItem(STORAGE_NAME, JSON.stringify({ userId: response.data.userId, token: response.data.token }));
+    const response = await httpPost('/api/auth/login', { email, password });
+    localStorage.setItem(STORAGE_NAME, JSON.stringify({ userId: response.userId, token: response.token }));
 
-    return response.data;
+    return response;
   } catch (err) {
     let error = err;
 

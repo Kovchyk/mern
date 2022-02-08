@@ -53,7 +53,7 @@ describe('Login page', () => {
   afterEach(() => cleanup());
 
   test('should show email error message', async () => {
-    axios.mockImplementation(() => Promise.reject(getErrorData("Can't find the user")));
+    axios.post.mockImplementation(() => Promise.reject(getErrorData("Can't find the user")));
 
     expect(screen.queryByText(/Can't find the user/i)).not.toBeInTheDocument();
 
@@ -67,7 +67,7 @@ describe('Login page', () => {
   });
 
   test('should show password error message', async () => {
-    axios.mockImplementation(() => Promise.reject(getErrorData('wrong password')));
+    axios.post.mockImplementation(() => Promise.reject(getErrorData('wrong password')));
 
     expect(screen.queryByText(/Wrong password/i)).not.toBeInTheDocument();
 
@@ -82,7 +82,7 @@ describe('Login page', () => {
   });
 
   test('should not have errors on the page', async () => {
-    axios.mockImplementation(() =>
+    axios.post.mockImplementation(() =>
       Promise.resolve({
         data: {
           token: 'user_token',

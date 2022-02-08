@@ -8,12 +8,16 @@ import { Provider } from 'react-redux';
 // Import your own reducer
 import authReducer from '../store/authentification/auth.slice';
 import homeReducer from '../modules/Home/homeSlice';
+import registerReducer from '../store/registration/register.slice';
 
 function renderWithRedux(
   ui,
   {
     preloadedState,
-    store = configureStore({ reducer: { auth: authReducer, home: homeReducer }, preloadedState }),
+    store = configureStore({
+      reducer: { auth: authReducer, home: homeReducer, register: registerReducer },
+      preloadedState,
+    }),
     ...renderOptions
   } = {},
 ) {

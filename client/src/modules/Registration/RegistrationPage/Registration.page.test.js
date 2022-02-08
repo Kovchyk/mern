@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { renderWithRedux, screen, cleanup, waitFor } from '@utils/testUtils';
 import userEvent from '@testing-library/user-event';
-import LoginPage from './Registration.page';
+import RegistrationPage from './Registration.page';
 
 window.matchMedia = jest.fn().mockImplementation(query => {
   return {
@@ -16,9 +16,10 @@ window.matchMedia = jest.fn().mockImplementation(query => {
 
 jest.mock('axios');
 
-const typeIntoForm = ({ email, password }) => {
+const typeIntoForm = ({ email, password, confirmPassword }) => {
   const emailInputElement = screen.getByRole('textbox', { type: /email/i });
   const passwordInputElement = screen.getByLabelText('Password');
+  const confirmPasswordInputElement = screen.getByLabelText(/confirm password/i);
 
   if (email) {
     userEvent.type(emailInputElement, email);
@@ -28,7 +29,11 @@ const typeIntoForm = ({ email, password }) => {
     userEvent.type(passwordInputElement, password);
   }
 
-  return { emailInputElement, passwordInputElement };
+  if (confirmPassword) {
+    userEvent.type(confirmPasswordInputElement, confirmPassword);
+  }
+
+  return { emailInputElement, passwordInputElement, confirmPasswordInputElement };
 };
 
 const clickSubmitButton = () => {
@@ -47,57 +52,84 @@ const getErrorData = message => {
 
 describe('Registration page', () => {
   beforeEach(() => {
-    renderWithRedux(<LoginPage />);
+    renderWithRedux(<RegistrationPage />);
   });
 
   afterEach(() => cleanup());
 
-  test('should show email error message', async () => {
-    axios.mockImplementation(() => Promise.reject(getErrorData("Can't find the user")));
+  test('should content register header', () => {
+    expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
+  });
 
-    expect(screen.queryByText(/Can't find the user/i)).not.toBeInTheDocument();
+  test('should show email error message', async () => {
+    axios.post.mockImplementation(() => Promise.reject(getErrorData('The user already exists')));
+
+    expect(screen.queryByText(/The user already exists/i)).not.toBeInTheDocument();
 
     typeIntoForm({ email: 'kovchy@gmail.com' });
     typeIntoForm({ password: '123123' });
-    clickSubmitButton();
-
-    await waitFor(() => {
-      expect(screen.queryByText(/Can't find the user/i)).toBeInTheDocument();
-    });
-  });
-
-  test('should show password error message', async () => {
-    axios.mockImplementation(() => Promise.reject(getErrorData('wrong password')));
-
-    expect(screen.queryByText(/Wrong password/i)).not.toBeInTheDocument();
-
-    typeIntoForm({ email: 'kovchyk@gmail.com' });
-    typeIntoForm({ password: '12312' });
+    typeIntoForm({ confirmPassword: '123123' });
 
     clickSubmitButton();
 
     await waitFor(() => {
-      expect(screen.queryByText(/Wrong password/i)).toBeInTheDocument();
+      expect(screen.queryByText(/The user already exists/i)).toBeInTheDocument();
     });
   });
 
   test('should not have errors on the page', async () => {
-    axios.mockImplementation(() =>
+    axios.post.mockImplementation(() =>
       Promise.resolve({
-        data: {
-          token: 'user_token',
-          userId: 1,
-        },
+        message: 'User was created',
       }),
     );
 
     typeIntoForm({ email: 'kovchyk@gmail.com' });
     typeIntoForm({ password: '123123' });
+    typeIntoForm({ confirmPassword: '123123' });
+
     clickSubmitButton();
 
     await waitFor(() => {
-      expect(screen.queryByText(/Wrong password/i)).not.toBeInTheDocument();
-      expect(screen.queryByText(/Can't find the user/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/The user already exists/i)).not.toBeInTheDocument();
     });
   });
+
+  test("should show 'user was created' message", async () => {
+    axios.post.mockImplementation(() =>
+      Promise.resolve({
+        message: 'User was created',
+      }),
+    );
+
+    typeIntoForm({ email: 'kovchyk@gmail.com' });
+    typeIntoForm({ password: '123123' });
+    typeIntoForm({ confirmPassword: '123123' });
+
+    clickSubmitButton();
+
+    await waitFor(() => {
+      expect(screen.queryByText(/user was created/i)).toBeInTheDocument();
+    });
+  });
+
+  // test('should clear inputs on success', async () => {
+  //   axios.post.mockImplementation(() =>
+  //     Promise.resolve({
+  //       message: 'User was created',
+  //     }),
+  //   );
+
+  //   const { emailInputElement } = typeIntoForm({ email: 'kovchyk@gmail.com' });
+  //   const { passwordInputElement } = typeIntoForm({ password: '123123' });
+  //   const { confirmPasswordInputElement } = typeIntoForm({ confirmPassword: '123123' });
+
+  //   clickSubmitButton();
+
+  //   await waitFor(() => {
+  //     expect(emailInputElement.value).toBe('');
+  //     expect(passwordInputElement.value).toBe('');
+  //     expect(confirmPasswordInputElement.value).toBe('');
+  //   });
+  // });
 });
