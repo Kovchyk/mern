@@ -48,17 +48,6 @@ export const registerSlice = createSlice({
   },
 });
 
-const selectAuthState = state => state.auth;
-
-export const selectorAuth = createSelector(selectAuthState, state => {
-  return {
-    token: state.token,
-    userId: state.userId,
-    error: state.error,
-    isLoading: state.isLoading,
-  };
-});
-
 const selectRegisterState = state => state.register;
 
 export const selectorRegister = createSelector(selectRegisterState, state => ({
